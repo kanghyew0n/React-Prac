@@ -1,0 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  padding: 30px;
+}
+
+.empty {
+  width: 48%;
+}
+header {
+  width: 100%;
+  background-color: #f5f5f5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #666;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.component {
+  display: flex;
+  justify-content: space-around;
+}

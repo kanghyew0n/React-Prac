@@ -1,0 +1,42 @@
+li {
+  list-style: none;
+}
+.list {
+  width: 48%;
+  height: 85vh;
+  border: 1px solid #666;
+}
+
+.contents {
+  font-size: 20px;
+}
+
+.contentList__btn {
+  width: 100px;
+  margin-right: 30px;
+  height: 45px;
+}
+
+.contents__list {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #666;
+  padding: 0 20px;
+  height: 55px;
+}
+
+.contents__list .username {
+  width: 30%;
+}
+
+.contents__list .title {
+  width: 45%;
+  cursor: pointer;
+}
+
+.contents__list .createAt {
+}
+.contents__list .contents__title {
+  width: 300px;
+  background-color: antiquewhite;
+}
