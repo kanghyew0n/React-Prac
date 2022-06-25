@@ -13,7 +13,7 @@ function Create({ contents, setContents }) {
       username: username,
       title: title,
       content: msg,
-      createdAt: new Date().toLocaleDateString(),
+      createdAt: new Date().toLocaleString(),
     };
 
     const newContents = [newcontent, ...contents];

@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import { React, useEffect, useState } from "react";
 import "./App.css";
-import dummy from "./resource/dummyData";
 
 import ContentList from "./pages/ContentList";
 import Create from "./pages/Create";
@@ -8,7 +7,19 @@ import Read from "./pages/Read";
 import Update from "./pages/Update";
 
 const App = () => {
-  const [contents, setContents] = useState(dummy); // 추가 데이터 불러오기
+  const [contents, setContents] = useState([]); // 추가 데이터 불러오기
+
+  // 무한 로딩!!! -> useEffect 사용해야함
+  const url = "http://localhost:3001/discussions";
+  // const fetchData = fetch(url).then((res) => res.json());
+
+  useEffect(() => {
+    // 데이터 넣기
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => setContents(data));
+  }, []);
+
   const [clickCreate, setClickCreate] = useState(true); // 글쓰기 버튼이 클릭 되었는가?
   const [clickTitle, setClickTitle] = useState(false); // 타이틀이 클릭 되었는가?
   const [clickUpdate, setClickUpdate] = useState(false); // 수정  버튼이 클릭 되었는가?
@@ -47,17 +58,17 @@ const App = () => {
 
   // 수정 -> update에 기본값 불러서 가져오고 -> 다시 update하기 ?
   const handleUpdate = (username, updateIdx) => {
-    const updates = contents.filter((content, idx) => idx === updateIdx);
-    alert(`${username} 님이 작성한 글을 수정합니다.`);
-    setContents((contents) =>
-      contents.map((content) =>
-        content.id === updateIdx ? { updates, ...content } : content
-      )
-    );
-    setUpdateData(updates);
-    setClickUpdate(true);
-    setClickTitle(false);
-    setClickCreate(false);
+    // const updates = contents.filter((content, idx) => idx === updateIdx);
+    // alert(`${username} 님이 작성한 글을 수정합니다.`);
+    // setContents((contents) =>
+    //   contents.map((content) =>
+    //     content.id === updateIdx ? { updates, ...content } : content
+    //   )
+    // );
+    // setUpdateData(updates);
+    // setClickUpdate(true);
+    // setClickTitle(false);
+    // setClickCreate(false);
     // 다른 창 닫아주기
   };
 
