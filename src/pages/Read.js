@@ -1,7 +1,7 @@
 import React from "react";
 import "./Read.css";
 
-function Read({ content, handleDelete, idx, handleUpdate }) {
+function Read({ content, handleDelete, idx, onUpdateBtn }) {
   return (
     <div className="Read">
       <div className="Read__item">
@@ -15,7 +15,7 @@ function Read({ content, handleDelete, idx, handleUpdate }) {
       <div className="Read__btns">
         <button
           className="수정"
-          onClick={() => handleUpdate(content.username, idx)}
+          onClick={() => onUpdateBtn(content.username, content.id)}
         >
           수정
         </button>

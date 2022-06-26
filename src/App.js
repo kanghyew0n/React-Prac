@@ -7,11 +7,13 @@ import Read from "./pages/Read";
 import Update from "./pages/Update";
 
 const App = () => {
-  const [contents, setContents] = useState([]); // 추가 데이터 불러오기
-
   // 무한 로딩!!! -> useEffect 사용해야함
+  const [contents, setContents] = useState([]); // 추가 데이터 불러오기
   const url = "http://localhost:3001/discussions";
-  // const fetchData = fetch(url).then((res) => res.json());
+  // const fetchData = fetch(url)
+  //   .then((res) => res.json())
+  //   .then((data) => setContents(data));
+  // console.log(fetchData);
 
   useEffect(() => {
     // 데이터 넣기
@@ -23,7 +25,6 @@ const App = () => {
   const [clickCreate, setClickCreate] = useState(true); // 글쓰기 버튼이 클릭 되었는가?
   const [clickTitle, setClickTitle] = useState(false); // 타이틀이 클릭 되었는가?
   const [clickUpdate, setClickUpdate] = useState(false); // 수정  버튼이 클릭 되었는가?
-  const [updateData, setUpdateData] = useState("");
 
   const [selectData, setSelectData] = useState(""); // 선택된 타이틀에 해당하는 data 담기
 
@@ -31,14 +32,14 @@ const App = () => {
   const onCreateBtn = () => {
     setClickCreate(true);
     setClickTitle(false);
-    setUpdateData(false);
+    setClickUpdate(false);
   };
 
   // 제목 클릭 -> 해당 content 만 가져오기
   const handleFilter = (username, clickIdx) => {
     setClickCreate(false);
     const clickTitle = contents.filter((content, idx) => idx === clickIdx);
-    alert(`${username} 님의 글입니다.`);
+    //alert(`${username} 님의 글입니다.`);
     setSelectData(clickTitle);
     setClickTitle(true);
     setClickCreate(false);
@@ -57,19 +58,36 @@ const App = () => {
   };
 
   // 수정 -> update에 기본값 불러서 가져오고 -> 다시 update하기 ?
-  const handleUpdate = (username, updateIdx) => {
-    // const updates = contents.filter((content, idx) => idx === updateIdx);
-    // alert(`${username} 님이 작성한 글을 수정합니다.`);
-    // setContents((contents) =>
-    //   contents.map((content) =>
-    //     content.id === updateIdx ? { updates, ...content } : content
-    //   )
-    // );
-    // setUpdateData(updates);
-    // setClickUpdate(true);
-    // setClickTitle(false);
-    // setClickCreate(false);
+  const onUpdateBtn = (username) => {
+    alert(`onUpdateBtn : ${username} `);
+    setClickUpdate(true);
+    setClickTitle(false);
+    setClickCreate(false);
+
     // 다른 창 닫아주기
+  };
+
+  const handleUpdate = (username, title, msg, content) => {
+    console.log(username, title, msg);
+    alert(`handleUpdate : ${username}`);
+    const updateContent = {
+      id: content.id,
+      username: username,
+      title: title,
+      content: msg,
+      createdAt: new Date().toLocaleString(),
+    };
+
+    //const updates = [...updateContent];
+    console.log(updateContent);
+
+    for (let i = 0; i < contents.length; i++) {
+      if (contents[i].id === updateContent.id) {
+        contents[i] = updateContent;
+        break;
+      }
+    }
+    setContents(contents);
   };
 
   return (
@@ -108,7 +126,7 @@ const App = () => {
                 content={content}
                 key={content.id}
                 handleDelete={handleDelete}
-                handleUpdate={handleUpdate}
+                onUpdateBtn={onUpdateBtn}
                 idx={idx}
               />
             );
@@ -118,12 +136,16 @@ const App = () => {
         )}
 
         {clickUpdate ? (
-          <Update
-            updateData={updateData}
-            clickUpdate={clickUpdate}
-            contents={contents}
-            handleUpdate={handleUpdate}
-          />
+          selectData.map((content, idx) => {
+            return (
+              <Update
+                content={content}
+                key={content.id}
+                idx={idx}
+                handleUpdate={handleUpdate}
+              />
+            );
+          })
         ) : (
           <div></div>
         )}
