@@ -21,7 +21,7 @@ function Read({ content, handleDelete, idx, onUpdateBtn }) {
         </button>
         <button
           className="삭제"
-          onClick={() => handleDelete(content.username, idx)}
+          onClick={() => handleDelete(content.username, content.id)}
         >
           삭제
         </button>

@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useState } from "react";
 import "./App.css";
 
 import ContentList from "./pages/ContentList";
@@ -10,17 +10,10 @@ const App = () => {
   // 무한 로딩!!! -> useEffect 사용해야함
   const [contents, setContents] = useState([]); // 추가 데이터 불러오기
   const url = "http://localhost:3001/discussions";
-  // const fetchData = fetch(url)
-  //   .then((res) => res.json())
-  //   .then((data) => setContents(data));
-  // console.log(fetchData);
 
-  useEffect(() => {
-    // 데이터 넣기
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => setContents(data));
-  }, []);
+  const getcontent = fetch(url)
+    .then((res) => res.json())
+    .then((data) => setContents(data));
 
   const [clickCreate, setClickCreate] = useState(true); // 글쓰기 버튼이 클릭 되었는가?
   const [clickTitle, setClickTitle] = useState(false); // 타이틀이 클릭 되었는가?
@@ -50,9 +43,17 @@ const App = () => {
 
   // 삭제 -> 삭제하고 다시 create 불러오기
   const handleDelete = (username, deleteIdx) => {
-    const deletes = contents.filter((content, idx) => idx !== deleteIdx);
+    fetch(`${url}/${deleteIdx}`, {
+      method: "DELETE",
+    })
+      .then((response) => response.json())
+      .then(getcontent)
+      .catch((error) => console.error(error.message));
+
+    console.log(deleteIdx);
+    //const deletes = contents.filter((content, idx) => idx !== deleteIdx);
     alert(`${username} 님이 작성한 글을 삭제합니다`);
-    setContents(deletes); // 삭제하지 않는 항목들
+    setContents(contents); // 삭제하지 않는 항목들
     setClickTitle(false);
     setClickCreate(true);
   };
@@ -68,18 +69,22 @@ const App = () => {
   };
 
   const handleUpdate = (username, title, msg, content) => {
-    console.log(username, title, msg);
     alert(`handleUpdate : ${username}`);
-    const updateContent = {
-      id: content.id,
-      username: username,
-      title: title,
-      content: msg,
-      createdAt: new Date().toLocaleString(),
-    };
 
-    //const updates = [...updateContent];
-    console.log(updateContent);
+    const updateContent = fetch(`${url}/${content.id}`, {
+      method: "PUT",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        id: content.id,
+        username: username,
+        title: title,
+        content: msg,
+        createdAt: new Date().toLocaleString(),
+      }),
+    })
+      .then((response) => response.json())
+      .then(getcontent)
+      .catch((error) => console.error(error.message));
 
     for (let i = 0; i < contents.length; i++) {
       if (contents[i].id === updateContent.id) {

@@ -8,15 +8,23 @@ function Create({ contents, setContents }) {
   const [msg, setMsg] = useState("");
 
   const handleButtonClick = (event) => {
-    const newcontent = {
-      id: nextId,
-      username: username,
-      title: title,
-      content: msg,
-      createdAt: new Date().toLocaleString(),
-    };
-
-    const newContents = [newcontent, ...contents];
+    const getNewcontent = fetch("http://localhost:3001/discussions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        key: nextId,
+        id: nextId,
+        username: username,
+        title: title,
+        content: msg,
+        createdAt: new Date().toLocaleString(),
+      }), // 그냥 냅다 $todoInput.value 주면 안되고 데이터 받는 형식에 맞게!
+    })
+      .then((response) => response.json())
+      .catch((error) => console.error(error.message));
+    const newContents = [getNewcontent, ...contents];
 
     setContents(newContents);
     console.log(newContents);
