@@ -1,0 +1,33 @@
+* {
+  box-sizing: border-box;
+}
+.Editor {
+  padding: 30px;
+  border: 1px solid #666;
+  width: 600px;
+  height: 320px;
+  margin-top: 50px;
+}
+
+h2 {
+  text-align: center;
+}
+
+input,
+textarea {
+  width: 100%;
+  margin-top: 10px;
+}
+
+input {
+  height: 40px;
+}
+
+textarea {
+  height: 80px;
+}
+
+.saveBtn {
+  margin: 10px auto;
+  float: right;
+}
