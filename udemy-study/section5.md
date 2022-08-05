@@ -200,6 +200,7 @@ props.value (=amount), props.maxValue (=???)
 
 <br/>
 
+(추가: section2 unit4 내용)
 ### 삼항 연산자로 class명 주기 
 ```js
    {dummyTweets.map((tweet) => {
