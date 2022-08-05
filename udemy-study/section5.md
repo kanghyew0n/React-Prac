@@ -200,4 +200,30 @@ props.value (=amount), props.maxValue (=???)
 
 <br/>
 
+### 삼항 연산자로 class명 주기 
+```js
+   {dummyTweets.map((tweet) => {
+        const isParkHacker = tweet.username === "parkhacker";
+        const tweetUserNameClass = isParkHacker
+          ? "tweet__username tweet__username--purple"
+          : "tweet__username";
+        return (
+          <li className="tweet" key={tweet.id}>
+            <div className="tweet__profile">
+              <img src={tweet.picture} />
+            </div>
+            <div className="tweet__content">
+              <div className="tweet__userInfo">
+                <span className={tweetUserNameClass}>{tweet.username}</span>
+                <span className="tweet__createdAt">{tweet.createdAt}</span>
+              </div>
+              <div className="tweet__message">{tweet.content}</div>
+            </div>
+          </li>
+        );
+      })}
+```
+
+<br/>
+
 <br/>
